@@ -1,0 +1,51 @@
+body
+{
+    font-family: Arial, sans-serif;
+    font-size: 26px;
+    text-align: center;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Architects Daughter', cursive;
+}
+
+header
+{
+    line-height: 2em;
+}
+
+main
+{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}
+
+.invisible
+{
+    display: none;
+}
+
+img.gameOver
+{
+    width: 100%;
+    opacity: .3;
+    position: fixed;
+    height: 90%;
+    top: 0;
+    left: 0;
+}
+
+input.newGame
+{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 10%;
+    width: 100%;
+    background-color: #ccc;
+    font-family: 'Luckiest Guy', cursive;
+    font-size: 1.2em;
+}

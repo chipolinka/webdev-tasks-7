@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>Hrunogochi</title>
+    <link rel="stylesheet" href="/index.css" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Luckiest+Guy' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+</head>
+<body>
+    <header>Hello, it's me</header>
+    <div class="speech">
+        Talk? <span class="conversation"></span>
+    </div>
+    <main class="hrun">
+        <div class="picture">
+            <svg width="300" height="440">
+                <ellipse rx="70" ry="100" cx="150" cy="180" fill="#fdcdd9" stroke="#ee204d"/>
+                <circle r="65" cx="150" cy="70" fill="#fdcdd9" stroke="#ee204d"/>
+                <ellipse rx="20" ry="15" cx="150" cy="75" fill="#fdcdd9" stroke="#ee204d" />
+                <ellipse rx="10" ry="15" cx="118" cy="50" fill="#fff" stroke="#ee204d"/>
+                <ellipse rx="10" ry="15" cx="178" cy="50" fill="#fff" stroke="#ee204d"/>
+                <ellipse rx="5" ry="6" cx="118" cy="50" fill="#000"/>
+                <ellipse rx="5" ry="6" cx="178" cy="50" fill="#000"/>
+                <polygon points="115,15 100,0 90,15 93,40" fill="#fdcdd9" stroke="#ee204d"/>
+                <polygon points="100,0 90,15 70,30" fill="#fdcdd9" stroke="#ee204d"/>
+                <polygon points="210,13 200,0 180,12 207,40" fill="#fdcdd9" stroke="#ee204d"/>
+                <polygon points="210,13 200,0 215,40" fill="#fdcdd9" stroke="#ee204d"/>
+                <path d="M 100,150 L 50,195 60,200 55,215 105,170" fill="#fdcdd9" stroke="#ee204d"/>
+                <path d="M 200,150 L 250,190 240,195 245,215 205,175" fill="#fdcdd9" stroke="#ee204d"/>
+                <path d="M 110,255 L 110,320 130,330 130,270" fill="#fdcdd9" stroke="#ee204d"/>
+                <polygon points="110,320 90,340 130,340 130,330"/>
+                <path d="M 160,270 L 160,330 180,320 180,255" fill="#fdcdd9" stroke="#ee204d"/>
+                <polygon points="180,320 200,340 160,340 160,330"/>
+            </svg>
+        </div>
+        <div class="sound">
+            <div>Volume</div>
+            <input class="volume" type="range" value="25" min="0" max="50"/>
+        </div>
+        <div class="states">
+            <div class="mood">
+                Mood: <span class="mood_percent"></span>%
+            </div>
+            <div class="satiety">
+                Satiety: <span class="satiety_percent"></span>%
+            </div>
+            <div class="energy">
+                Energy: <span class="energy_percent"></span>%
+            </div>
+        </div>
+        <input class="newGame" type="submit" value="New Game">
+        <div class="gameOver invisible">
+            Game Over!
+        </div>
+        <img src="http://wallpapercave.com/wp/RMIs0gk.png" alt="Game Over" class="invisible gameOver">
+    </main>
+    <script src="/index.js"></script>
+    <script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script>
+    <script src="/audio.js"></script>
+</body>
+</html>
