@@ -38,21 +38,22 @@ function getVisibility() {
     }
 }
 
-document.addEventListener(visibilityChange, () => {
+document.addEventListener(visibilityChange, function () {
     if (document[hidden]) {
-        setInterval(() => {
-            state.energy = document[hidden] && state.energy < 100 ? state.energy + 4 : 100;
-            setStates();
-        }, 1000);
+        setInterval(function () {
+            if (document[hidden] && state.energy < 100) {
+                addFeatures('energy');
+            }
+        }, 2000);
     }
 });
 
-setInterval(() => {
+setInterval(function () {
     for (let condition in state) {
         state[condition] = state[condition] > 0 ? state[condition] - 1 : 0;
         setStates();
     }
-    if ((state.energy == 0 && state.mood == 0) || (state.energy && state.satiety == 0) ||
+    if ((state.energy == 0 && state.mood == 0) || (state.energy == 0 && state.satiety == 0) ||
             (state.mood == 0 && state.satiety == 0)) {
                 document.getElementsByClassName('gameOver')[0].classList.remove('invisible');
                 document.getElementsByClassName('gameOver')[1].classList.remove('invisible');
@@ -61,7 +62,7 @@ setInterval(() => {
 }, 2000);
 
 let newGameInput = document.getElementsByClassName('newGame')[0];
-newGameInput.addEventListener('click', () => {
+newGameInput.addEventListener('click', function () {
     state.energy = 100;
     state.mood = 100;
     state.satiety = 100;
@@ -73,31 +74,39 @@ newGameInput.addEventListener('click', () => {
 
 function getSpeech() {
     let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    let recognition = new SpeechRecognition();
-    recognition.lang = 'en-US';
-    recognition.continuous = true;
-    let speech = document.getElementsByClassName('speech')[0];
-    speech.addEventListener('click', () => {
-        recognition.start();
-        setInterval(() => {
+    if (SpeechRecognition) {
+        let recognition = new SpeechRecognition();
+        recognition.lang = 'en-US';
+        recognition.continuous = true;
+        recognition.onresult = function (event) {
+            let index = event.resultIndex;
+            let result = event.results[index][0].transcript.trim();
+            conversation.innerHTML = result;
             if (state.mood < 100 && !battery.charging && isDay && !document[hidden]) {
-                state.mood += 4;
-                state.mood = Math.min(100, state.mood);
-                setStates();
+                addFeatures('mood');
             } else {
                 recognition.stop();
             }
-        }, 1000);
-    });
-
-    recognition.onresult = event => {
-        let index = event.resultIndex;
-        let result = event.results[index][0].transcript.trim();
-        conversation.innerHTML = result;
+        }
     }
+
+    let speech = document.getElementsByClassName('speech')[0];
+    speech.addEventListener('click', function () {
+        if (SpeechRecognition) {
+            recognition.start();
+        } else {
+            addFeatures('mood');
+        }
+    });
 }
 
-window.onunload = () => {
+function addFeatures(feature) {
+    state[feature] += 4;
+    state[feature] = Math.min(100, state[feature]);
+    setStates();
+}
+
+window.onunload = function () {
     localStorage.satiety = state.satiety;
     localStorage.energy = state.energy;
     localStorage.mood = state.mood;
@@ -108,15 +117,18 @@ function getCharging() {
     battery = navigator.getBattery();
     if (!battery) {
         console.log('No battery');
+        let feed = document.getElementsByClassName('feed')[0];
+        feed.classList.remove('invisible');
+        feed.addEventListener('click', function (event) {
+            addFeatures('satiety');
+        });
         return;
     }
-    battery.then(initBattery => {
-        initBattery.addEventListener('chargingchange', () => {
+    battery.then(function (initBattery) {
+        initBattery.addEventListener('chargingchange', function () {
             if (initBattery.charging && state.satiety < 100 && !document[hidden]) {
-                setInterval(() => {
-                    state.satiety += 4;
-                    state.satiety = Math.min(100, state.satiety);
-                    setStates();
+                setInterval(function () {
+                    addFeatures('satiety');
                 }, 1000);
             }
         });
@@ -124,12 +136,13 @@ function getCharging() {
 }
 
 function checkLight() {
-    window.addEventListener('devicelight', event => {
+    window.addEventListener('devicelight', function (event) {
         isDay = event.value > 20;
         if (!isDay) {
-            setInterval(() => {
-                state.energy = !isDay && state.energy < 100 ? state.energy + 4 : 100;
-                setStates();
+            setInterval(function () {
+                if (!isDay && state.energy < 100) {
+                    addFeatures('energy');
+                }
             }, 1000);
         }
     });
