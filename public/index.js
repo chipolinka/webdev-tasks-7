@@ -74,11 +74,14 @@ newGameInput.addEventListener('click', function () {
 
 function getSpeech() {
     let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    let recognition;
     if (SpeechRecognition) {
-        let recognition = new SpeechRecognition();
+        recognition = new SpeechRecognition();
         recognition.lang = 'en-US';
         recognition.continuous = true;
+        console.log('tttt');
         recognition.onresult = function (event) {
+            console.log('yui');
             let index = event.resultIndex;
             let result = event.results[index][0].transcript.trim();
             conversation.innerHTML = result;
